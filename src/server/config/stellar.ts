@@ -1,0 +1,31 @@
+import { Horizon, Networks } from '@stellar/stellar-sdk';
+import { env } from './env';
+
+const networkMap = {
+  testnet: {
+    passphrase: Networks.TESTNET,
+    horizonUrl: 'https://horizon.stellar.org',
+  },
+  public: {
+    passphrase: Networks.PUBLIC,
+    horizonUrl: 'https://horizon.stellar.org',
+  },
+  futurenet: {
+    passphrase: Networks.FUTURENET,
+    horizonUrl: 'https://horizon-futurenet.stellar.org',
+  },
+} as const;
+
+const cfg = networkMap[env.STELLAR_NETWORK];
+
+export const stellar = {
+  passphrase: cfg.passphrase,
+  horizonUrl: cfg.horizonUrl,
+  network: env.STELLAR_NETWORK,
+  server: new Horizon.Server(cfg.horizonUrl),
+  sorobanRpcUrl: env.SOROBAN_RPC_URL,
+  contractId: env.SOROBAN_CONTRACT_ID,
+  tokenId: env.SOROBAN_TOKEN_ID,
+} as const;
+
+export const milestoneContractEnabled = env.SOROBAN_CONTRACT_ID.length > 0;

@@ -1,0 +1,17 @@
+[package]
+name = "sorak-milestone"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "MIT"
+description = "Soroban contract backing Sorak: cumulative on-chain tip totals per (creator, supporter) and lifetime milestone tier detection."
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+doctest = false
+
+[dependencies]
+soroban-sdk = "22"
+
+[dev-dependencies]
+soroban-sdk = { version = "22", features = ["testutils"] }

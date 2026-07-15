@@ -1,0 +1,17 @@
+import path from 'node:path';
+import { chromium } from '@playwright/test';
+const OUT = path.resolve(process.cwd(), '../screen-shot');
+const jpg = (n) => ({ path: path.join(OUT, n), type: 'jpeg', quality: 85 });
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const b = await chromium.launch();
+const ctx = await b.newContext({ viewport: { width: 1280, height: 900 }, deviceScaleFactor: 2 });
+const p = await ctx.newPage();
+await p.goto('http://localhost:3001/', { waitUntil: 'networkidle' });
+await p.getByRole('heading', { name: /Turn applause/i }).waitFor();
+await sleep(1500);
+await p.screenshot(jpg('01-landing.jpg'));
+await p.locator('#creators').scrollIntoViewIfNeeded();
+await sleep(900);
+await p.screenshot(jpg('07-explore.jpg'));
+await b.close();
+console.log('landing shots done');
